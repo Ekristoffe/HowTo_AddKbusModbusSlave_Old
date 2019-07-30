@@ -1,4 +1,4 @@
-VERSION = 1.3.0
+VERSION = 1.4.0
 
 CFLAGS=-c -Wall -Wextra -Os
 CFLAGS += -I$(SYSROOT)/usr/include/OsLinux/
@@ -40,20 +40,20 @@ EXECUTABLE=kbusmodbusslave
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $@ $(LDFLAGS)
+    $(CC) $(OBJECTS) -o $@ $(LDFLAGS)
 
 .c.o:
-	$(CC) $(CFLAGS) $< -o $@
+    $(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf $(EXECUTABLE)
-	rm -rf $(OBJECTS)
+    rm -rf $(EXECUTABLE)
+    rm -rf $(OBJECTS)
 
 
 zip: clean
-	@mkdir -p $(EXECUTABLE)-$(VERSION)
-	@cp ../kbusmodbusslave.conf $(EXECUTABLE)-$(VERSION)/
-	@cp $(SOURCES) *.h Makefile $(EXECUTABLE)-$(VERSION)/
-	@tar -cjvRf ../$(EXECUTABLE)-$(VERSION).tar.bz2 $(EXECUTABLE)-$(VERSION)/*
-	@rm -rf $(EXECUTABLE)-$(VERSION)
-	@echo "..:: Done ::.."
+    @mkdir -p $(EXECUTABLE)-$(VERSION)
+    @cp ../kbusmodbusslave.conf $(EXECUTABLE)-$(VERSION)/
+    @cp $(SOURCES) *.h Makefile $(EXECUTABLE)-$(VERSION)/
+    @tar -cjvRf ../$(EXECUTABLE)-$(VERSION).tar.bz2 $(EXECUTABLE)-$(VERSION)/*
+    @rm -rf $(EXECUTABLE)-$(VERSION)
+    @echo "..:: Done ::.."

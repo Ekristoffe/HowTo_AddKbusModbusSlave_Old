@@ -7,6 +7,7 @@
  *
  */
 
+#define DEFAULT_CONFIG_ITEM                 352
 #define DEFAULT_CONFIG_PORT                 502
 #define DEFAULT_CONFIG_MAX_TCP_CONNECTIONS  5
 #define DEFAULT_CONFIG_COUPLER_MODE         0
@@ -18,6 +19,7 @@ int conf_init(void);
 int conf_getConfig(void);
 void conf_deInit(void);
 
+extern int conf_order_number;
 extern int conf_modbus_port;
 extern int conf_max_tcp_connections;
 extern int conf_operation_mode;

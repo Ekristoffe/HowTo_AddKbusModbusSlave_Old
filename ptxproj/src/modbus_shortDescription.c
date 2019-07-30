@@ -41,9 +41,9 @@ int modbusShortDescription_init(void)
 {
     dprintf(VERBOSE_STD, "Modbus ShortDesctiption Init\n");
     mb_shortDescription_mapping = modbus_mapping_new(0, 0, MAX_DESCRIPTION_REGISTER_COUNT, 0);
-    if (mb_shortDescription_mapping == NULL) {
-        fprintf(stderr, "Failed to allocate the mapping: %s\n",
-                modbus_strerror(errno));
+    if (mb_shortDescription_mapping == NULL) 
+    {
+        fprintf(stderr, "Failed to allocate the mapping: %s\n", modbus_strerror(errno));
         return -1;
     }
 
@@ -92,11 +92,12 @@ void modbusShortDescription_parseModbusCommand(modbus_t *ctx, uint8_t *command, 
 
     switch(function)
     {
-     case _FC_READ_HOLDING_REGISTERS:
-      modbus_reply_offset(ctx, command, command_len, mb_shortDescription_mapping, MODBUS_SHORT_DESCRIPTION_START_ADDRESS);
-      break;
-     default:
-      modbus_reply_exception(ctx, command, MODBUS_EXCEPTION_ILLEGAL_FUNCTION );
+        case _FC_READ_HOLDING_REGISTERS:
+            modbus_reply_offset(ctx, command, command_len, mb_shortDescription_mapping, MODBUS_SHORT_DESCRIPTION_START_ADDRESS);
+            break;
+        default:
+            modbus_reply_exception(ctx, command, MODBUS_EXCEPTION_ILLEGAL_FUNCTION );
+            break;
     }
 
 }

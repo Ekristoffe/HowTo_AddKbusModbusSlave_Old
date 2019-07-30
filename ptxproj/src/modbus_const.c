@@ -55,9 +55,9 @@ int modbusConfigConst_init(void)
     dprintf(VERBOSE_STD, "Modbus const Init\n");
     mb_config_const_mapping = modbus_mapping_new(0, 0, MODBUSCONFIG_CONST_REGISTER_LEN, 0);
 
-    if (mb_config_const_mapping == NULL) {
-        fprintf(stderr, "Failed to allocate the mapping: %s\n",
-                modbus_strerror(errno));
+    if (mb_config_const_mapping == NULL) 
+    {
+        fprintf(stderr, "Failed to allocate the mapping: %s\n", modbus_strerror(errno));
         return -1;
     }
 
@@ -90,12 +90,13 @@ void modbusConfigConst_parseModbusCommand(modbus_t *ctx, uint8_t *command, int c
 
     switch(function)
     {
-     case _FC_READ_INPUT_REGISTERS:
-     case _FC_READ_HOLDING_REGISTERS:
-      modbus_reply_offset(ctx, command, command_len, mb_config_const_mapping, MODBUSCONFIG_CONST_REGISTER_START_ADDRESS);
-      break;
-     default:
-      modbus_reply_exception(ctx, command, MODBUS_EXCEPTION_ILLEGAL_FUNCTION );
+        case _FC_READ_INPUT_REGISTERS:
+        case _FC_READ_HOLDING_REGISTERS:
+            modbus_reply_offset(ctx, command, command_len, mb_config_const_mapping, MODBUSCONFIG_CONST_REGISTER_START_ADDRESS);
+            break;
+        default:
+            modbus_reply_exception(ctx, command, MODBUS_EXCEPTION_ILLEGAL_FUNCTION );
+            break;
     }
 }
 

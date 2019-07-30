@@ -10,17 +10,25 @@
  * @brief Modbus function codes
  * @{
  */
-#define _FC_READ_COILS                0x01
-#define _FC_READ_DISCRETE_INPUTS      0x02
-#define _FC_READ_HOLDING_REGISTERS    0x03
-#define _FC_READ_INPUT_REGISTERS      0x04
-#define _FC_WRITE_SINGLE_COIL         0x05
-#define _FC_WRITE_SINGLE_REGISTER     0x06
-#define _FC_READ_EXCEPTION_STATUS     0x07
-#define _FC_WRITE_MULTIPLE_COILS      0x0F
-#define _FC_WRITE_MULTIPLE_REGISTERS  0x10
-#define _FC_REPORT_SLAVE_ID           0x11
-#define _FC_WRITE_AND_READ_REGISTERS  0x17
+#define _FC_READ_COILS                  0x01 // Internal Bits Or Physical coils
+#define _FC_READ_DISCRETE_INPUTS        0x02 // Physical Discrete Inputs
+#define _FC_READ_HOLDING_REGISTERS      0x03 // Internal Registers Or Physical Output Registers
+#define _FC_READ_INPUT_REGISTERS        0x04 // Physical Input Registers
+#define _FC_WRITE_SINGLE_COIL           0x05 // Internal Bits Or Physical coils
+#define _FC_WRITE_SINGLE_REGISTER       0x06 // Internal Registers Or Physical Output Registers
+#define _FC_READ_EXCEPTION_STATUS       0x07 // Diagnostics (Unsupported: Serial Line only)
+#define _FC_DIAGNOSTICS                 0x08 // Diagnostics (Unsupported: Serial Line only)
+#define _FC_GET_COMM_EVENT_COUNTER      0xOB // Diagnostics (Unsupported: Serial Line only)
+#define _FC_GET_COMM_EVENT_LOG          0x0C // Diagnostics (Unsupporte: Serial Line onlyd)
+#define _FC_WRITE_MULTIPLE_COILS        0x0F // Internal Bits Or Physical coils
+#define _FC_WRITE_MULTIPLE_REGISTERS    0x10 // Internal Registers Or Physical Output Registers
+#define _FC_REPORT_SLAVE_ID             0x11 // Diagnostics (Unsupported: Serial Line only)
+#define _FC_READ_FILE_RECORD            0x14 // File record access (Unsupported: Not implemented in WAGO Slaves)
+#define _FC_WRITE_FILE_RECORD           0x15 // File record access (Unsupported: Not implemented in WAGO Slaves)
+#define _FC_MASK_WRITE_REGISTER         0x16 // Internal Registers Or Physical Output Registers (Unsupported: TODO)
+#define _FC_WRITE_AND_READ_REGISTERS    0x17 // Internal Registers Or Physical Output Registers
+#define _FC_READ_FIFO_QUEUE             0x18 // Internal Registers Or Physical Output Registers (Unsupported: Not implemented in WAGO Slaves)
+#define _FC_READ_DEVICE_IDENTIFICATION  0x2B // Diagnostics (Unsupported: TODO ?)
 /**
  * @}
  */

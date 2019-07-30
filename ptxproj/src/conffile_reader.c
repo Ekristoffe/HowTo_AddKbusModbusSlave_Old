@@ -27,6 +27,7 @@
 /**
  * Parameter variables
  */
+int conf_order_number = 0;
 int conf_modbus_port = 0;
 int conf_max_tcp_connections = 0;
 int conf_operation_mode = 0;
@@ -38,6 +39,7 @@ int conf_kbus_cycle_ms = 0;
  * @brief Config file available parameters
  */
 const char *options[] = {
+    "order_number",
     "modbus_port",
     "max_tcp_connections",
     "operation_mode",
@@ -54,15 +56,20 @@ static int conf_setParameter(const char *parameter, char *value)
     //PORT-PARAMTER
     if (strcmp(parameter, options[0]) == 0)
     {
+        if(str2int(&conf_order_number, value, 10) != STR2INT_SUCCESS)
+            return -1;
+    }
+    if (strcmp(parameter, options[1]) == 0)
+    {
         if(str2int(&conf_modbus_port, value, 10) != STR2INT_SUCCESS)
             return -1;
     }
-    else if (strcmp(parameter, options[1]) == 0)
+    else if (strcmp(parameter, options[2]) == 0)
     {
         if (str2int(&conf_max_tcp_connections, value, 10) != STR2INT_SUCCESS)
             return -1;
     }
-    else if (strcmp(parameter, options[2]) == 0)
+    else if (strcmp(parameter, options[3]) == 0)
     {
         if (str2int(&conf_operation_mode, value, 10 ) != STR2INT_SUCCESS)
             return -1;
@@ -72,12 +79,12 @@ static int conf_setParameter(const char *parameter, char *value)
         else if (conf_operation_mode >= 1)
             conf_operation_mode = 1;
     }
-    else if (strcmp(parameter, options[3]) == 0)
+    else if (strcmp(parameter, options[4]) == 0)
     {
         if (str2int(&conf_modbus_delay_ms, value, 10) != STR2INT_SUCCESS)
             return -1;
     }
-    else if (strcmp(parameter, options[4]) == 0)
+    else if (strcmp(parameter, options[5]) == 0)
     {
         if (str2int(&conf_kbus_priority, value, 10) != STR2INT_SUCCESS)
             return -1;
@@ -88,7 +95,7 @@ static int conf_setParameter(const char *parameter, char *value)
             return -1;
         }
     }
-    else if (strcmp(parameter, options[5])== 0)
+    else if (strcmp(parameter, options[6])== 0)
     {
         if (str2int(&conf_kbus_cycle_ms, value, 10) != STR2INT_SUCCESS)
             return -1;
@@ -107,6 +114,7 @@ static int conf_setParameter(const char *parameter, char *value)
 static void conf_printConfiguration(void)
 {
     fprintf(stdout, "\n======= CONFIGURATION =======\n");
+    fprintf(stdout, "ORDER NUMBER: %d\n", conf_order_number);
     fprintf(stdout, "PORT: %d\n", conf_modbus_port);
     fprintf(stdout, "MAX CONNECTIONS: %u\n", conf_max_tcp_connections);
     fprintf(stdout, "OPERATION MODE: %u\n", conf_operation_mode);
@@ -121,6 +129,8 @@ static void conf_printConfiguration(void)
  */
 int conf_init(void)
 {
+    //-------- Order Number --------
+    conf_order_number = DEFAULT_CONFIG_ITEM;
     //-------- Port --------
     conf_modbus_port = DEFAULT_CONFIG_PORT;
     //-------- Max Connections ------
@@ -145,7 +155,7 @@ int conf_getConfig(void)
     char *bufr;
     char *conf;
     size_t len = 0;
-    char delimiter[] = " \n"; //Only space and \n as delimimiter
+    char delimiter[] = " \n"; // Only space and \n as delimimiter
     size_t i=0;
 
     if((fp = fopen(CONF_FILENAME, "r")) != NULL)

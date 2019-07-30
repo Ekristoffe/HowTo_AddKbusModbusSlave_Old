@@ -45,9 +45,9 @@ int modbusKBUSInfo_init(void)
 {
     dprintf(VERBOSE_STD, "Modbus KBUS Info Init\n");
     mb_mapping_kbusInfo = modbus_mapping_new(0, 0, 4, 0);
-    if (mb_mapping_kbusInfo == NULL) {
-        fprintf(stderr, "Failed to allocate the mapping: %s\n",
-                modbus_strerror(errno));
+    if (mb_mapping_kbusInfo == NULL) 
+    {
+        fprintf(stderr, "Failed to allocate the mapping: %s\n", modbus_strerror(errno));
         return -1;
     }
 
@@ -71,12 +71,13 @@ void modbusKBUSInfo_parseModbusCommand(modbus_t *ctx, uint8_t *command, int comm
 
     switch(function)
     {
-     case _FC_READ_INPUT_REGISTERS:
-     case _FC_READ_HOLDING_REGISTERS:
-      modbus_reply_offset(ctx, command, command_len, mb_mapping_kbusInfo, MODBUS_KBUSINFO_START_ADDRESS);
-      break;
-     default:
-      modbus_reply_exception(ctx, command, MODBUS_EXCEPTION_ILLEGAL_FUNCTION );
+        case _FC_READ_INPUT_REGISTERS:
+        case _FC_READ_HOLDING_REGISTERS:
+            modbus_reply_offset(ctx, command, command_len, mb_mapping_kbusInfo, MODBUS_KBUSINFO_START_ADDRESS);
+            break;
+        default:
+            modbus_reply_exception(ctx, command, MODBUS_EXCEPTION_ILLEGAL_FUNCTION );
+            break;
     }
 }
 
