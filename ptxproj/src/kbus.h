@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 
-typedef struct {
+typedef struct 
+{
     unsigned int series;
     unsigned int value;
     unsigned int spec1;

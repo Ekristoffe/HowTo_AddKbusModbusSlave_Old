@@ -46,7 +46,8 @@ extern int vlevel; /**< @brief Variable for verbosity level needed by many modul
 /**
  * @brief Return values for str2int
  */
-typedef enum {
+typedef enum 
+{
     STR2INT_SUCCESS,
     STR2INT_OVERFLOW,
     STR2INT_UNDERFLOW,
