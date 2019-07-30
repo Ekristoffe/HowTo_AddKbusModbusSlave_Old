@@ -314,7 +314,8 @@ static int kbus_getTerminalType(int cnt)
 
     for( i = 1; i <= cnt; i++)
     {
-        adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_TAB_9, &result, i, &value);
+        adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_TAB_9,
+                                        &result, i, &value);
         if ((result == 0) && (value != 0))
         {
             modules[i-1].series = 750;
@@ -325,14 +326,16 @@ static int kbus_getTerminalType(int cnt)
             if ((value & 0x8000) == 0)// if non digital I/O
             {
 
-                adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_CONF_REG, &result, i, 16, &value);
+                adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_CONF_REG,
+                                                &result, i, 16, &value);
 
                 if ((result == 0) && (value & 0x100)) //series 753
                 {
                     modules[i-1].series = 753;
                 }
 
-                adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_CONF_REG, &result, i, 30, &value);
+                adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_CONF_REG,
+                                                &result, i, 30, &value);
 
                 //----LET THE MAGIC HAPPEN----?????-----
                 if ((result == 0) && (value != 0))
@@ -344,14 +347,16 @@ static int kbus_getTerminalType(int cnt)
                     }
                     else
                     {
-                        adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_CONF_REG, &result, i, 29, &value);
+                        adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_CONF_REG,
+                                                        &result, i, 29, &value);
 
                         if (result == 0)
                         {
                             modules[i-1].spec1 = value;
                         }
 
-                        adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_CONF_REG, &result, i, 28, &value);
+                        adi->CallDeviceSpecificFunction(LIBPACKBUS_DAL_FUNC_READ_CONF_REG,
+                                                        &result, i, 28, &value);
 
                         if (result == 0)
                         {
@@ -364,6 +369,7 @@ static int kbus_getTerminalType(int cnt)
         else
         {
             return -1;
+
         }
     }
 
@@ -392,7 +398,8 @@ static int kbus_getTerminalType(int cnt)
         }
         else
         {
-            written += snprintf(&buffer[written], OS_ARRAY_SIZE(buffer)-written, "%u / %u-%u", modules[i-1].value, modules[i-1].spec1, modules[i-1].spec2);
+            written += snprintf(&buffer[written], OS_ARRAY_SIZE(buffer)-written, "%u / %u-%u", modules[i-1].value,
+                               modules[i-1].spec1, modules[i-1].spec2);
         }
 
         buffer[written] = '\0';

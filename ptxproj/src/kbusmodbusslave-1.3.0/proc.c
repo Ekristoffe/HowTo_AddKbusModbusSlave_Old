@@ -150,10 +150,11 @@ int proc_createEntry(size_t terminalCnt, module_desc_t *modules, tldkc_KbusInfo_
         }
     }
 
-	exit:
-		close(fd_count);
-		close(fd_info);
-		return error;;
+
+exit:
+    close(fd_count);
+    close(fd_info);
+    return error;;
 }
 
 /**

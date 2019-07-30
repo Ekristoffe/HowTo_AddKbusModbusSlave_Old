@@ -31,8 +31,8 @@ static pthread_t oms_led_thread;
 static char oms_led_task_running = 1;
 static tOmsDevice *omsDev = NULL;
 
-#define OMS_RUN   0x01
-#define OMS_STOP  0x02
+#define OMS_RUN 0x01
+#define OMS_STOP 0x02
 #define OMS_RESET 0x04
 #define OMS_ERROR 0x08
 
@@ -133,12 +133,11 @@ static void *oms_led_task(void *none)
 {
     UNUSED(none);
 
-#define SWITCH_STATE_RUN          0x01
-#define SWITCH_STATE_STOP         0x02
-#define SWITCH_STATE_RESET        0x04
-#define SWITCH_STATE_INIT         0x08
-#define SWITCH_STATE_FIRST_ENTRY  0x80
-
+#define SWITCH_STATE_RUN 0x01
+#define SWITCH_STATE_STOP   0x02
+#define SWITCH_STATE_RESET  0x04
+#define SWITCH_STATE_INIT   0x08
+#define SWITCH_STATE_FIRST_ENTRY 0x80
     static uint8_t switchStateMaschine = SWITCH_STATE_INIT | SWITCH_STATE_FIRST_ENTRY;
     static uint8_t oldswitchStateMaschine;
     static uint8_t resetCounter = 0;
@@ -150,70 +149,70 @@ static void *oms_led_task(void *none)
         //Switch State Maschine
         switch(switchStateMaschine & ~SWITCH_STATE_FIRST_ENTRY)
         {
-			case SWITCH_STATE_INIT:
-				if (switchStateMaschine & SWITCH_STATE_FIRST_ENTRY)
-				{
-					dprintf(VERBOSE_STD, "-->Init\n");
-					setRunLEDColor(RUN_COLOR_OFF);
-				}
-				if (switchPos == OMS_RUN)
-					switchStateMaschine = SWITCH_STATE_RUN;
-				else if (switchPos == OMS_STOP)
-					switchStateMaschine = SWITCH_STATE_STOP;
-				else if (switchPos == OMS_RESET)
-					switchStateMaschine = SWITCH_STATE_RESET;
-				break;
-			case SWITCH_STATE_RUN:
-				if (switchStateMaschine & SWITCH_STATE_FIRST_ENTRY)
-				{
-					dprintf(VERBOSE_STD, "--> RUN\n");
-					setRunLEDColor(RUN_COLOR_GREEN);
-					oms_led_Application_RUN();
-				}
-				if (switchPos == OMS_STOP)
-					switchStateMaschine = SWITCH_STATE_STOP;
-				else if (switchPos == OMS_RESET)
-					switchStateMaschine = SWITCH_STATE_RESET;
-				break;
-			case SWITCH_STATE_STOP:
-				if (switchStateMaschine & SWITCH_STATE_FIRST_ENTRY)
-				{
-					dprintf(VERBOSE_STD, "--> STOP\n");
-					setRunLEDColor(RUN_COLOR_BLINK);
-					oms_led_Application_STOP();
-				}
-				if (switchPos == OMS_RUN)
-					switchStateMaschine = SWITCH_STATE_RUN;
-				else if (switchPos == OMS_RESET)
-					switchStateMaschine = SWITCH_STATE_RESET;
-				break;
-			case SWITCH_STATE_RESET:
-				if (switchStateMaschine & SWITCH_STATE_FIRST_ENTRY)
-				{
-					dprintf(VERBOSE_STD, "--> RESET\n");
-					setRunLEDColor(RUN_COLOR_RESET);
-					resetCounter = 0;
-				}
+         case SWITCH_STATE_INIT:
+          if (switchStateMaschine & SWITCH_STATE_FIRST_ENTRY)
+          {
+              dprintf(VERBOSE_STD, "-->Init\n");
+              setRunLEDColor(RUN_COLOR_OFF);
+          }
+          if (switchPos == OMS_RUN)
+              switchStateMaschine = SWITCH_STATE_RUN;
+          else if (switchPos == OMS_STOP)
+              switchStateMaschine = SWITCH_STATE_STOP;
+          else if (switchPos == OMS_RESET)
+              switchStateMaschine = SWITCH_STATE_RESET;
+          break;
+         case SWITCH_STATE_RUN:
+          if (switchStateMaschine & SWITCH_STATE_FIRST_ENTRY)
+          {
+              dprintf(VERBOSE_STD, "--> RUN\n");
+              setRunLEDColor(RUN_COLOR_GREEN);
+              oms_led_Application_RUN();
+          }
+          if (switchPos == OMS_STOP)
+              switchStateMaschine = SWITCH_STATE_STOP;
+          else if (switchPos == OMS_RESET)
+              switchStateMaschine = SWITCH_STATE_RESET;
+          break;
+         case SWITCH_STATE_STOP:
+          if (switchStateMaschine & SWITCH_STATE_FIRST_ENTRY)
+          {
+              dprintf(VERBOSE_STD, "--> STOP\n");
+              setRunLEDColor(RUN_COLOR_BLINK);
+              oms_led_Application_STOP();
+          }
+          if (switchPos == OMS_RUN)
+              switchStateMaschine = SWITCH_STATE_RUN;
+          else if (switchPos == OMS_RESET)
+              switchStateMaschine = SWITCH_STATE_RESET;
+          break;
+         case SWITCH_STATE_RESET:
+          if (switchStateMaschine & SWITCH_STATE_FIRST_ENTRY)
+          {
+              dprintf(VERBOSE_STD, "--> RESET\n");
+              setRunLEDColor(RUN_COLOR_RESET);
+              resetCounter = 0;
+          }
 
-				if (resetCounter < 30)
-				{
-					resetCounter++;
-					if (resetCounter >= 30)
-					{
-						fprintf(stderr, "--> Execute RESET\n");
-						main_shutdownModules();
-						main_startUpModules();
-					}
-				}
+          if (resetCounter < 30)
+          {
+              resetCounter++;
+              if (resetCounter >= 30)
+              {
+                  fprintf(stderr, "--> Execute RESET\n");
+                  main_shutdownModules();
+                  main_startUpModules();
+              }
+          }
 
-				if (switchPos == OMS_RUN)
-					switchStateMaschine = SWITCH_STATE_RUN;
-				else if (switchPos == OMS_STOP)
-					switchStateMaschine = SWITCH_STATE_STOP;
-				break;
+          if (switchPos == OMS_RUN)
+              switchStateMaschine = SWITCH_STATE_RUN;
+          else if (switchPos == OMS_STOP)
+              switchStateMaschine = SWITCH_STATE_STOP;
+          break;
 
-			default:
-				break;
+         default:
+          break;
         }
 
         //Clear first-entry-flag
@@ -246,7 +245,8 @@ int oms_led_start(void)
 
     log_EVENT_Init("kbusmodbusslave"); //Init eventlogging with program name
 
-    if (pthread_create(&oms_led_thread, NULL, &oms_led_task, NULL) != 0)
+    if (pthread_create(&oms_led_thread, NULL,
+                   &oms_led_task, NULL) != 0)
     {
         return -2;
     }

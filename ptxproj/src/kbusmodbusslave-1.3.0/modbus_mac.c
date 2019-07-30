@@ -42,7 +42,7 @@ static int modbusConfigMac_setMACAddress(void)
     if (sock == -1)
     {
         return -1;
-    }
+    };
 
     ifc.ifc_len = sizeof(buf);
     ifc.ifc_buf = buf;
@@ -78,7 +78,9 @@ static int modbusConfigMac_setMACAddress(void)
         {
             if (mb_config_mac_mapping != NULL)
             {
-                mb_config_mac_mapping->tab_registers[i] = (uint16_t) ((ifr.ifr_hwaddr.sa_data[i*2] << 8) | (ifr.ifr_hwaddr.sa_data[(i*2)+1]));
+                mb_config_mac_mapping->tab_registers[i] =
+                    (uint16_t) ((ifr.ifr_hwaddr.sa_data[i*2] << 8) |
+                                (ifr.ifr_hwaddr.sa_data[(i*2)+1]));
             }
 
         }
@@ -99,9 +101,9 @@ int modbusConfigMac_init(void)
 {
     dprintf(VERBOSE_STD, "Modbus Config MAC Init\n");
     mb_config_mac_mapping = modbus_mapping_new(0, 0, 3, 0);
-    if (mb_config_mac_mapping == NULL) 
-	{
-        fprintf(stderr, "Failed to allocate the mapping: %s\n", modbus_strerror(errno));
+    if (mb_config_mac_mapping == NULL) {
+        fprintf(stderr, "Failed to allocate the mapping: %s\n",
+                modbus_strerror(errno));
         return -1;
     }
 
@@ -136,13 +138,12 @@ void modbusConfigMac_parseModbusCommand(modbus_t *ctx, uint8_t *command, int com
 
     switch(function)
     {
-		case _FC_READ_INPUT_REGISTERS:
-		case _FC_READ_HOLDING_REGISTERS:
-			modbus_reply_offset(ctx, command, command_len, mb_config_mac_mapping, MODBUSCONFIG_MAC_START_ADDRESS);
-			break;
-		default:
-			modbus_reply_exception(ctx, command, MODBUS_EXCEPTION_ILLEGAL_FUNCTION );
-			break;
+     case _FC_READ_INPUT_REGISTERS:
+     case _FC_READ_HOLDING_REGISTERS:
+      modbus_reply_offset(ctx, command, command_len, mb_config_mac_mapping, MODBUSCONFIG_MAC_START_ADDRESS);
+      break;
+     default:
+      modbus_reply_exception(ctx, command, MODBUS_EXCEPTION_ILLEGAL_FUNCTION );
     }
 }
 

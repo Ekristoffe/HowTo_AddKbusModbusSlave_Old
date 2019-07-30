@@ -79,8 +79,7 @@ static void start_daemon(void)
     if (pid > 0)
         exit (EXIT_SUCCESS);
 
-    if (setsid() < 0) 
-	{
+    if (setsid() < 0) {
         fprintf(stderr, "Unable to set session id!\n");
         exit (EXIT_FAILURE);
     }
@@ -168,30 +167,29 @@ int main(int argc, char *argv[])
     //parse programm options
     while ( (c = getopt_long(argc, argv, "hdv:", long_options, NULL)) != -1)
     {
-        switch (c) 
-		{
-			case 'v':
-				if (str2int(&vlevel, optarg, 10) == STR2INT_SUCCESS)
-				{
-					vlevel=atoi(optarg);
-					dprintf (VERBOSE_INFO, "verbosity level is %d\n", vlevel);
-				}
-				break;
+        switch (c) {
 
-			case 'd':
-				dprintf(VERBOSE_STD, "Not running in background\n");
-				daemon_flag = 0;
-				break;
+         case 'v':
+          if (str2int(&vlevel, optarg, 10) == STR2INT_SUCCESS)
+          {
+              vlevel=atoi(optarg);
+              dprintf (VERBOSE_INFO, "verbosity level is %d\n", vlevel);
+          }
+          break;
 
-			case ':':       /* Option without required operand */
-			case 'h':
-			case '?':
-				usage( argv[0], TRUE );
-				break;
+         case 'd':
+          dprintf(VERBOSE_STD, "Not running in background\n");
+          daemon_flag = 0;
+          break;
 
-			default:
-				printf ("?? getopt returned character code 0%o ??\n", c);
-				break;
+         case ':':       /* Option without required operand */
+         case 'h':
+         case '?':
+          usage( argv[0], TRUE );
+          break;
+
+         default:
+          printf ("?? getopt returned character code 0%o ??\n", c);
         }
     }
 
