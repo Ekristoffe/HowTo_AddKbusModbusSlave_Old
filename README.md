@@ -1,5 +1,6 @@
-# Adding KbusModbusPFCSlave to the PFC
-
+# HowTo_AddKbusModbusSlave
+Adding KbusModbusPFCSlave to the PFC
+ 
 ## Every package is bundled to a specific firmware version: For Version 12.1- FW:03.00.39(99)
 
 This HowTo shows how to build and install the Kbus Modbus Slave application 
