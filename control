@@ -1,0 +1,10 @@
+Package:	kbusmodbusslave
+Priority:	optional
+Version:	1.4.0
+Section:  	base
+Architecture:	armhf
+Maintainer:	"BrT/IC"
+Installed-Size:	65937
+Depends:
+Source: 	http://www.ptxdist.org/
+Description:	kbus modbus driver

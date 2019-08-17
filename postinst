@@ -1,0 +1,6 @@
+#!/bin/bash
+# IPKG post inst script:
+# WAGO Kontakttechnik GmbH & Co. KG / Helmut.Saal@wago.com
+
+./etc/config-tools/config_runtime -w runtime-version=0
+ln -s /etc/init.d/kbusmodbusslave.sh /etc/rc.d/S98_kbusmodbusslave
