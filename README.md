@@ -1,5 +1,6 @@
-# Adding KbusModbusPFCSlave to the PFC
-
+# HowTo_AddKbusModbusSlave
+Adding KbusModbusPFCSlave to the PFC
+ 
 ## Every package is bundled to a specific firmware version: For Version 12.1- FW:03.00.39(99)
 
 This HowTo shows how to build and install the Kbus Modbus Slave application 
@@ -14,14 +15,14 @@ The application "kbusmodbusslave" can be interessting for two reason:
 >Take care that there is no other ADI/DAL-Application(like PLC-Runtime) active while using this application. Because ADI/DAL-Interface offer a single process support only!
 
 # PREREQUISITES
-This HowTo is / based on a clean installation of Ubuntu LTS, with an installed and working WAGO Board-Support Package for PFC200. Working means that you successfully built the standard image “sd.hdimg”.
+This HowTo is / based on a clean installation of Ubuntu LTS, with an installed and working WAGO Board-Support Package for PFC200. Working means that you successfully built the standard image “sd.hdimg”. Please check https://github.com/WAGO/pfc-firmware-sdk for further information.
 
 # Build package "kbusmodbusslave" on development host:
 1. Copy attached rule file and sources for "kbusmodbusslave" to given folder:
 ```
 $cp ./ptxproj/rules/kbusmodbusslave.in    ~/wago/ptxproj-2.5.23/rules/
 $cp ./ptxproj/rules/kbusmodbusslave.make  ~/wago/ptxproj-2.5.23/rules/
-$cp ./ptxproj/src/kbusmodbusslave-1.3.0.tar.bz2 ~/wago/ptxproj-2.5.23/src/
+$cp ./ptxproj/src/kbusmodbusslave-1.4.0.tar.bz2 ~/wago/ptxproj-2.5.23/src/
 ```
 
 2. Select "kbusmodbusslave" package for build
@@ -47,7 +48,7 @@ $ptxdist clean kbusmodbusslave
         $ptxdist targetinstall kbusmodbusslave
     ```
     Afterwards you should find the IPKG installer package file:
-        ~/wago/ptxproj-2.5.23/platform-wago-pfcXXX/packages/kbusmodbusslave_1.3.0_arm.ipk
+        ~/wago/ptxproj-2.5.23/platform-wago-pfcXXX/packages/kbusmodbusslave_1.4.0_armhf.ipk
 
   2. Build complete firmware image "sd.hdimg"  (optional)
   ```
@@ -61,7 +62,7 @@ $ptxdist clean kbusmodbusslave
 
 As usual, you can:
 - copy image file "sd.hdimg" with command "dd" to SD-Card and boot PFC200 from it.
-- transfer package "kbusmodbusslave_1.3.0_arm.ipk" into PFC's file system and call "ipkg install <pkg-name>.ipk"
+- transfer package "kbusmodbusslave_1.4.0_armhf.ipk" into PFC's file system and call "ipkg install <pkg-name>.ipk"
 - utilize Web-Based-Management(WBM) feature "Software-Upload".
 
 ----------------------------------------------------------------------------------------------------------------------
@@ -81,7 +82,7 @@ Using Web-Based-Management(WBM) feature "Software-Upload" for upload and install
 3. Press button [Browser] to open the local file dialogue.
 ```
     Browse to attached folder "./packages/"
-    Select package to install or update, here "kbusmodbusslave_1.3.0_armhf.ipk".
+    Select package to install or update, here "kbusmodbusslave_1.4.0_armhf.ipk".
 ```
 
 4. Click on button [Start Upload].
@@ -92,7 +93,7 @@ Using Web-Based-Management(WBM) feature "Software-Upload" for upload and install
 ```
     Internally WBM just calls:
         >cd /home/
-        >opkg install kbusmodbusslave_1.3.0_armhf.ipk
+        >opkg install kbusmodbusslave_1.4.0_armhf.ipk
 ```
 
 6. Open a (ssh or serial) terminal session to PFC
@@ -110,6 +111,7 @@ Using Web-Based-Management(WBM) feature "Software-Upload" for upload and install
 ```
     $kbusmodbusslave --nodaemon -v7
     ======= CONFIGURATION =======
+	ORDER NUMBER: 352
     PORT: 502
     MAX CONNECTIONS: 5
     COUPLER MODE: 0
@@ -220,29 +222,32 @@ Comments an be placed on every line beginning and has to start with '#'.
 
 Default configuration file: /etc/kbusmodbusslave.conf
 
-    #CONFIGURATION FILE FOR KBUSMODBUSSLAVE DAEMON
+	#CONFIGURATION FILE FOR MODBUSPFCSLAVE DAEMON
 
-    #DEFAULT PORT IS 502
-    modbus_port 502
+	#ORDER NUMBER (Default: 352)
+	order_number 352
 
-    #MAXIMUM ALLOWED TCP CONNECTIONS
-    max_tcp_connections 5
+	#MODBUS SLAVE PORT (Default: 502)
+	modbus_port 502
 
-    #SET MODBUSMODE ASYNCHRONUS MODE (MODE 0)
-    #OR AS SYNCHRONUS MODE (MODE 1)
-    operation_mode 0
+	#MAXIMUM ALLOWED TCP CONNECTIONS (Default: 5)
+	max_tcp_connections 5
 
-    #SET MODBUS RESPONSE DELAY (Default: 0)
-    modbus_delay_ms 0
+	#SET MODBUSMODE ASYNCHRONUS MODE (Default: 0)
+	#OR AS SYNCHRONUS MODE (MODE 1)
+	operation_mode 0
 
-    #SET KBUS PRIORITY (Default: 60)
-    kbus_priority 60
+	#SET MODBUS RESPONSE DELAY (Default: 0)
+	modbus_delay_ms 0
 
-    #SET KBUS CYCLE MS (Default: 50)
-    kbus_cycle_ms 50
+	#SET KBUS PRIORITY (Default: 60)
+	kbus_priority 60
+
+	#SET KBUS CYCLE MS (Default: 50)
+	kbus_cycle_ms 50
 
 --------------------------------------------------------------------------------------
-# Operration Mode
+# Operation Mode
 
 1. Synchronus-Mode:
 On a incomming modbus request a KBUS cycle is initiated. So that new data will be written
@@ -295,8 +300,10 @@ updated on every KBUS cycle. (kbus_cycle_ms)
                +++                                        |
                | |Modbus Write/Read                       |
                +++                                       +++
-  Resp          |                                        | | KBUS Cycle
+                |                                        | | KBUS Cycle
   <-------------+                                        +++
+  Resp          |                                         |
+                |                                         |
                 |                                         | t
                 +                                         v
 ```
