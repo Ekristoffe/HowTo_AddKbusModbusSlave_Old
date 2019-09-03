@@ -1,7 +1,9 @@
 # HowTo_AddKbusModbusSlave
 Adding KbusModbusPFCSlave to the PFC
- 
-## Every package is bundled to a specific firmware version: For Version 12.1- FW:03.00.39(99)
+
+## Before doing anything please read this: https://www.ptxdist.org/doc/dev_manual.html#adding-new-packages
+
+## Every package is bundled to a specific firmware version please check your PFC firmware version.
 
 This HowTo shows how to build and install the Kbus Modbus Slave application 
 "kbusmodbusslave" who acting like a Modbus-Coupler 750-352.
