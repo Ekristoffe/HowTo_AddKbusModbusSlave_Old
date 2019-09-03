@@ -10,6 +10,8 @@
 # Short-Description:    kbusmodbusslave initialisation
 ### END INIT INFO
 
+RUNTIME_CHECK="/./etc/config-tools/get_runtime_config running-version"
+
 DAEMON_PATH="/usr/bin"
 DAEMON="kbusmodbusslave"
 DAEMONOPTS=""
@@ -22,15 +24,23 @@ SCRIPTNAME=/etc/init.d/$NAME.sh
 
 case "$1" in
 start)
-    printf "%-50s" "Starting $NAME..."
-    cd $DAEMON_PATH
-    PID=`$DAEMON $DAEMONOPTS > /dev/null 2>&1 & echo $!`
-    #echo "Saving PID" $PID " to " $PIDFILE
-    if [ -z $PID ]; then
-        printf "%s\n" "Fail"
+    if [ -z $RUNTIME_CHECK ]; then 
+        printf "%s\n" "Runtime check Fail"
     else
-        echo $PID > $PIDFILE
-        printf "%s\n" "Ok"
+        if [ $RUNTIME_CHECK != 0 ]; then 
+            printf "%s\n" "Runtime is running, service not started"
+        else
+            printf "%-50s" "Starting $NAME..."
+            cd $DAEMON_PATH
+            PID=`$DAEMON $DAEMONOPTS > /dev/null 2>&1 & echo $!`
+            #echo "Saving PID" $PID " to " $PIDFILE
+            if [ -z $PID ]; then
+                printf "%s\n" "Fail"
+            else
+                echo $PID > $PIDFILE
+                printf "%s\n" "Ok"
+            fi
+        fi
     fi
 ;;
 status)
