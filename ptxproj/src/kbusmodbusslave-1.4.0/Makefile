@@ -3,7 +3,7 @@ VERSION = 1.4.0
 CFLAGS=-c -Wall -Wextra -Os
 CFLAGS += -I$(SYSROOT)/usr/include/OsLinux/
 CFLAGS += -I$(SYSROOT)/usr/include/dal/
-CFLAGS += $(shell $(PKG_CONFIG) --cflags wago_diagnostic)
+#CFLAGS += $(shell $(PKG_CONFIG) --cflags wago_diagnostic)
 CFLAGS += -I$(SYSROOT)/usr/include/diagnostic/
 
 CFLAGS += -DVERSION=\"$(VERSION)\"
@@ -33,7 +33,7 @@ LDFLAGS += $(SYSROOT)/usr/lib/libdal.a
 LDFLAGS += -L/usr/lib/ -l:libmodbus.so.750
 LDFLAGS += -lrt -lffi -lglib-2.0 -llibloader
 LDFLAGS += -loms
-LDFLAGS += $(shell $(PKG_CONFIG) --libs wago_diagnostic)
+#LDFLAGS += $(shell $(PKG_CONFIG) --libs wago_diagnostic)
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=kbusmodbusslave
 
@@ -42,8 +42,8 @@ all: $(SOURCES) $(EXECUTABLE)
 $(EXECUTABLE): $(OBJECTS)
     $(CC) $(OBJECTS) -o $@ $(LDFLAGS)
 
-.c.o:
-    $(CC) $(CFLAGS) $< -o $@
+#.c.o:
+#    $(CC) $(CFLAGS) $< -o $@
 
 clean:
     rm -rf $(EXECUTABLE)

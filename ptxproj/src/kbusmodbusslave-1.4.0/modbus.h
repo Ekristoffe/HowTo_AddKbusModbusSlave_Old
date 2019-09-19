@@ -2,7 +2,7 @@
 #define __MODBUS_H__
 
 #include <stdint.h>
-#include <modbus/modbus.h>
+//#include <modbus/modbus.h>
 
 
 /**
